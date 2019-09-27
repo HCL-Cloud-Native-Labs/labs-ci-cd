@@ -11,7 +11,7 @@ jenkins_persistence_type: "persistent"
 jenkins:
   build:
     NAME: "{{ jenkins_name }}"
-    SOURCE_REPOSITORY_URL: https://github.com/rht-labs/s2i-config-jenkins.git
+    SOURCE_REPOSITORY_URL: https://github.com/HCL-Cloud-Native-Labs/s2i-config-jenkins.git
     SOURCE_REPOSITORY_REF: v1.5
     IMAGE_STREAM_NAMESPACE: "{{ ci_cd_namespace }}"
     SECRET_NAME: "jenkins-git-password"
@@ -130,7 +130,7 @@ hoverfly:
 openshift_cluster_content:
 - galaxy_requirements:
   - pre_post_requirements.yml # Uses openshift-label role from casl-ansible
-# CI/CD builds are customisations to base software to enhance their functionality or make them OCP ready 
+# CI/CD builds are customisations to base software to enhance their functionality or make them OCP ready
 - object: ci-cd-builds
   content:
   - name: jenkins-s2i
