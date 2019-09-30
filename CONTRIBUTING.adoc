@@ -1,4 +1,4 @@
-= Contributing to Labs CI / CD 
+= Contributing to Labs CI / CD
 :toc:
 :toc-title:
 :toc-placement!:
@@ -14,7 +14,7 @@ toc::[]
 
 == Types of contributions we’re looking for
 
-This project is used as a starting point for CI/CD tooling by the 
+This project is used as a starting point for CI/CD tooling by the
 Red Hat Open Innovation Labs group. It incoporates many technologies
 and is intended for development on OpenShift Container Platform.
 
@@ -40,13 +40,13 @@ them before we can merge your contribution.
 
 Local Development guide is still under construction...
 
-=== Deploying to OpenShift 
+=== Deploying to OpenShift
 
 The Labs CI / CD stack can be deployed to any OpenShift cluster, and is automated using link:https://github.com/redhat-cop/openshift-applier[OpenShift Applier]. The following commands can be used to install Applier, log in to your OpenShift cluster, and deploy the pipeline.
 
 [source,bash]
 ----
-ansible-galaxy install -r requirements.yml -p roles 
+ansible-galaxy install -r requirements.yml -p roles
 oc login ...
 ansible-playbook roles/openshift-applier/playbooks/openshift-cluster-seed.yml
 ----
@@ -56,6 +56,7 @@ This will result in the creation of several tools and environments across severa
 * `labs-ci-cd` is where Jenkins, and other tools will be deployed to.
 * `labs-dev` will be used as the Development environment, where smoke tests can be run.
 * `labs-test` is a promotion environment
+* `labs-prod` is a production environment
 
 If you need to customize the deployment (e.g. for testing a Pull Request), the Applier inventory supports a number of parameters to customize the deployment. The following command is an example of configuring the pipeline to build from an alternative fork and branch. For other possible parameters, see link:inventory/group_vars/all.yml[all.yml].
 
@@ -87,7 +88,7 @@ Discussions about Labs CI / CD  takes place within this repository’s
 https://github.com/rht-labs/labs-ci-cd/issues[Issues] and
 https://github.com/rht-labs/labs-ci-cd/pulls[Pull Requests]
 sections.
- 
+
 Wherever possible, do not take these conversations to private channels,
 including contacting the maintainers directly. Keeping communication
 public means everybody can benefit and learn from the conversation.

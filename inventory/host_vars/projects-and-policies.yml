@@ -24,7 +24,7 @@ openshift_cluster_content:
     - "{{ ci_cd_namespace }}"
     - projects
     - "projects-{{ ci_cd_namespace }}"
-  - name: "{{ dev_namespace }}"    
+  - name: "{{ dev_namespace }}"
     template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/project-requests/create-project.yml"
     params_from_vars: "{{ dev }}"
     action: create
@@ -40,6 +40,14 @@ openshift_cluster_content:
     - "{{ test_namespace }}"
     - projects
     - "projects-{{ test_namespace }}"
+  - name: "{{ prod_namespace }}"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/project-requests/create-project.yml"
+    params_from_vars: "{{ prod }}"
+    action: create
+    tags:
+      - "{{ prod_namespace }}"
+      - projects
+      - "projects-{{ prod_namespace }}"
 
 #  Bind user groups to roles for each of the new project eg giving ocp-devs edit access in the labs-ci-cd project
 - object: group-role-binding
@@ -91,7 +99,23 @@ openshift_cluster_content:
     tags:
     - "{{ test_namespace }}"
     - rolebinding-group
-    - "rolebinding-group-{{ test_namespace }}"
+    - "rolebinding-group-{{ prod_namespace }}"
+  - name: "{{ prod_namespace }}-acl"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/role-bindings/group-rolebinding-template.yml"
+    params_from_vars: "{{ edit_role_binding_group }}"
+    namespace: "{{ prod_namespace }}"
+    tags:
+      - "{{ prod_namespace }}"
+      - rolebinding-group
+      - "rolebinding-group-{{ prod_namespace }}"
+  - name: "{{ prod_namespace }}-acl"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/role-bindings/group-rolebinding-template.yml"
+    params_from_vars: "{{ admin_role_binding_group }}"
+    namespace: "{{ prod_namespace }}"
+    tags:
+      - "{{ prod_namespace }}"
+      - rolebinding-group
+      - "rolebinding-group-{{ prod_namespace }}"
 
 
 # Bindings to allow Jenkins operate outside of the project he's created in
@@ -113,6 +137,14 @@ openshift_cluster_content:
     - "{{ test_namespace }}"
     - rolebinding-jenkins
     - "rolebinding-jenkins-{{ test_namespace }}"
+  - name: "jenkins-{{ prod_namespace }}-role-binding"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/role-bindings/generic-service-user-bind.yml"
+    params_from_vars: "{{ jenkins }}"
+    namespace: "{{ prod_namespace }}"
+    tags:
+      - "{{ prod_namespace }}"
+      - rolebinding-jenkins
+      - "rolebinding-jenkins-{{ prod_namespace }}"
 
 # Add image puller role to be able to get images stored in other namespace
 - object: image-puller-role-binding
@@ -133,3 +165,11 @@ openshift_cluster_content:
     - "{{ test_namespace }}"
     - rolebinding-image-puller
     - "rolebinding-image-puller-{{ test_namespace }}"
+  - name: "image-puller-{{ prod_namespace }}-role-binding"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/role-bindings/generic-service-user-bind.yml"
+    params_from_vars: "{{ image_puller }}"
+    namespace: "{{ prod_namespace }}"
+    tags:
+      - "{{ prod_namespace }}"
+      - rolebinding-image-puller
+      - "rolebinding-image-puller-{{ prod_namespace }}"

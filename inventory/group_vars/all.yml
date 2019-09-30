@@ -1,6 +1,7 @@
 ci_cd_namespace: labs-ci-cd
 dev_namespace: labs-dev
 test_namespace: labs-test
+prod_namespace: labs-prod
 
 openshift_templates_raw: "https://raw.githubusercontent.com/redhat-cop/openshift-templates"
 openshift_templates_raw_version_tag: "v1.4.12"
@@ -20,6 +21,10 @@ dev:
 test:
   NAMESPACE: "{{ test_namespace }}"
   NAMESPACE_DISPLAY_NAME: "{{ test_namespace }}"
+
+prod:
+  NAMESPACE: "{{ prod_namespace }}"
+  NAMESPACE_DISPLAY_NAME: "{{ prod_namespace }}"
 
 edit_role_binding_group:
   GROUP: "labs-ci-cd-contributors"

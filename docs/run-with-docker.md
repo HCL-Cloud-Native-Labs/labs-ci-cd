@@ -26,7 +26,8 @@ If `labs-ci-cd` already exists on your OpenShift cluster and you want to create 
     -i /tmp/src/inventory/ \
     -e ci_cd_namespace=another-ci-cd \
     -e dev_namespace=another-dev \
-    -e test_namespace=another-test
+    -e test_namespace=another-test \
+    -e prod_namespace=another-prod
 ```
 
 ## Running a Subset of the Inventory
