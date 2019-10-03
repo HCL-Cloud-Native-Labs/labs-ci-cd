@@ -12,6 +12,7 @@ image_puller:
   PIPELINES_NAMESPACE: "{{ ci_cd_namespace }}"
   DEPLOYER_USER: default
 
+
 # Create new projects with a given short name and display name
 openshift_cluster_content:
 - object: projectrequest
@@ -173,3 +174,23 @@ openshift_cluster_content:
       - "{{ prod_namespace }}"
       - rolebinding-image-puller
       - "rolebinding-image-puller-{{ prod_namespace }}"
+  - name: "image-puller-{{ dev_namespace }}-role-binding"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/role-bindings/group-rolebinding-template.yml"
+    params_from_vars:
+      GROUP: "system:serviceaccounts:{{ test_namespace }}"
+      ROLE: "system:image-puller"
+    namespace: "{{ dev_namespace }}"
+    tags:
+      - "{{ dev_namespace }}"
+      - rolebinding-image-puller
+      - "rolebinding-image-puller-{{ dev_namespace }}"
+  - name: "image-puller-{{ dev_namespace }}-role-binding"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/role-bindings/group-rolebinding-template.yml"
+    params_from_vars:
+      GROUP: "system:serviceaccounts:{{ prod_namespace }}"
+      ROLE: "system:image-puller"
+    namespace: "{{ dev_namespace }}"
+    tags:
+      - "{{ dev_namespace }}"
+      - rolebinding-image-puller
+      - "rolebinding-image-puller-{{ dev_namespace }}"

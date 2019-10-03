@@ -16,11 +16,13 @@ def clearProjects(){
         oc delete project $PR_CI_CD_PROJECT_NAME || rc=\$?
         oc delete project $PR_DEV_PROJECT_NAME || rc=\$?
         oc delete project $PR_TEST_PROJECT_NAME || rc=\$?
+        oc delete project $PR_PROD_PROJECT_NAME || rc=\$?
         while \${unfinished}
         do
             oc get project $PR_CI_CD_PROJECT_NAME || \
             oc get project $PR_DEV_PROJECT_NAME || \
-            oc get project $PR_TEST_PROJECT_NAME || unfinished=false
+            oc get project $PR_TEST_PROJECT_NAME || \
+            oc get project $PR_PROD_PROJECT_NAME || unfinished=false
         done
     """
 }
@@ -76,6 +78,7 @@ pipeline {
                     env.PR_CI_CD_PROJECT_NAME = "labs-ci-cd-pr-${env.PR_ID}"
                     env.PR_DEV_PROJECT_NAME = "labs-dev-pr-${env.PR_ID}"
                     env.PR_TEST_PROJECT_NAME = "labs-test-pr-${env.PR_ID}"
+                    env.PR_PROD_PROJECT_NAME = "labs-prod-pr-${env.PR_ID}"
 
                     env.PR_GITHUB_TOKEN = new String("oc get secret labs-robot-github-oauth-token --template='{{.data.password}}'".execute().text.minus("'").minus("'").decodeBase64())
                     if (env.PR_GITHUB_TOKEN == null || env.PR_GITHUB_TOKEN == ""){
@@ -136,7 +139,7 @@ pipeline {
                         echo "Applying inventory"
                         // each its own line to that in blue ocean UI they show seperately
                         sh "ansible-galaxy install -r requirements.yml --roles-path=roles"
-                        sh "ansible-playbook site.yml -e ci_cd_namespace=${env.PR_CI_CD_PROJECT_NAME} -e dev_namespace=${env.PR_DEV_PROJECT_NAME} -e test_namespace=${env.PR_TEST_PROJECT_NAME} -e role=admin"
+                        sh "ansible-playbook site.yml -e ci_cd_namespace=${env.PR_CI_CD_PROJECT_NAME} -e dev_namespace=${env.PR_DEV_PROJECT_NAME} -e test_namespace=${env.PR_TEST_PROJECT_NAME} -e test_namespace=${env.PR_PROD_PROJECT_NAME} -e role=admin"
 
                     }
                     // Post can be used both on individual stages and for the entire build.
