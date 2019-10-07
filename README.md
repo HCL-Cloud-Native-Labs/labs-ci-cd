@@ -80,6 +80,20 @@ $ ansible-playbook site.yml -e "include_tags=jenkins,sonarqube,nexus,tool-box,je
 $ ansible-playbook site.yml
 ```
 
+### Uninstalling
+
+1. Delete the projects using the following commands:
+```bash
+$ oc delete project labs-ci-cd
+$ oc delete project labs-dev
+$ oc delete project labs-test
+$ oc delete project labs-prod
+```
+2. Delete persistent volumes using the following command:
+```bash
+$ oc delete -f persistent-volume.yaml
+```
+
 ## Customised Install
 
 If `labs-ci-cd` already exists on your OpenShift cluster and you want to create a new instance of `labs-ci-cd` with its own name eg `john-ci-cd`, run the "unique projects" playbook. This playbook is useful if you're developing labs-ci-cd and want to test your changes. With a unique project name, you can safely try out your changes in a test cluster that others are using.
