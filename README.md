@@ -50,7 +50,15 @@ There are multiple Ansible inventories which divide the type of components to be
 * [OpenShift CLI Tools](https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html)
 * Access to the OpenShift cluster (Your user needs permissions to deploy ProjectRequest objects)
 * libselinux-python (only needed on Fedora, RHEL, and CentOS)
-  - Install by running `yum install libselinux-python`.
+  - Install by running:
+  ```bash
+  $ yum install libselinux-python
+  ```
+* Persistent Volumes for jenkins, nexus and sonarqube/sonardb (only works with hclcnlabs OCP env)
+  - Install by running:
+  ```bash
+  $ oc create -f persistent-volumes.yaml
+  ```
 
 ### Inventory Usage
 It should be noted that non-docker executions will utilize the inventory directory included in this repo by default. If you would like to specify a custom inventory for any of the below tasks, you can do so by adding `-i /path/to/my/inventory` to the command
@@ -61,11 +69,15 @@ It should be noted that non-docker executions will utilize the inventory directo
 2. Clone this repository.
 3. Install the required [openshift-applier](https://github.com/redhat-cop/openshift-applier) dependency:
 ```bash
-ansible-galaxy install -r requirements.yml --roles-path=roles
+$ ansible-galaxy install -r requirements.yml --roles-path=roles
 ```
-4. To deploy everything please run:
+4. To deploy everything that we need for now, i.e. Jenkins, Sonarqube and Nexus, please run:
 ```bash
-ansible-playbook site.yml
+$ ansible-playbook site.yml -e "include_tags=jenkins,sonarqube,nexus,tool-box,jenkins-slaves,rolebinding-group,rolebinding-jenkins,rolebinding-image-puller,ci,projects"
+```
+5. Or to deploy everything, please run:
+```bash
+$ ansible-playbook site.yml
 ```
 
 ## Customised Install
@@ -73,7 +85,7 @@ ansible-playbook site.yml
 If `labs-ci-cd` already exists on your OpenShift cluster and you want to create a new instance of `labs-ci-cd` with its own name eg `john-ci-cd`, run the "unique projects" playbook. This playbook is useful if you're developing labs-ci-cd and want to test your changes. With a unique project name, you can safely try out your changes in a test cluster that others are using.
 
 ```bash
-ansible-playbook site.yml -e ci_cd_namespace=another-ci-cd -e dev_namespace=another-dev -e test_namespace=another-test
+$ ansible-playbook site.yml -e ci_cd_namespace=another-ci-cd -e dev_namespace=another-dev -e test_namespace=another-test
 ```
 
 Or please look [here](inventory/group_vars/all.yml) for other variables you can change.
@@ -88,7 +100,7 @@ After running the playbook, the pipeline should execute in Jenkins, build the sp
 `labs-ci-cd` will default to deploying a persistent Jenkins, if you do not wish to use persistent jenkins please add on the extra variable `jenkins_persistence_type` and set it to `ephemeral` For Example:
 
 ```bash
-ansible-playbook site.yml -e jenkins_persistence_type=ephemeral
+$ ansible-playbook site.yml -e jenkins_persistence_type=ephemeral
 ```
 
 ## Running a Subset of the Inventory
@@ -99,7 +111,7 @@ In some cases you might not want to deploy all of the components in this repo; b
 2. The only required tag to deploy objects within the inventory is **projects**, all other tags are *optional*
 3. Here is an example that runs the tags that provision projects, ci, and jenkins objects:
 ```bash
-ansible-playbook site.yml \
+$ ansible-playbook site.yml \
     -e "include_tags=jenkins,ci,projects"
 ```
 

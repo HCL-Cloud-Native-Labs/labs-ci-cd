@@ -249,6 +249,7 @@ openshift_cluster_content:
         nexus_user: "admin"
         nexus_password: "{{ nexus_password }}"
         nexus_api_base_path: /service/rest/v1
+        nexus_validate_certs: False
     tags:
       - nexus
       - nexus-deploy
