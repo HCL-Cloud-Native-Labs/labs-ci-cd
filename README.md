@@ -6,7 +6,7 @@ This project is an Ansible inventory for loading an OpenShift cluster with some 
 
  Running this Ansible inventory will first create three project namespaces: `labs-ci-cd`, `labs-dev`, `labs-test` and `labs-prod`. Subsequently it will create a bunch of commonly used `ci-cd-tools` such as Jenkins, Nexus and Sonar. It will also create a collection of `jenkins-slaves` that can be used in builds such as `npm`, `maven` and `golang` to name a few. Apps can be added also by applying their `Jenkinsfile` as a buildConfig with an example (java-app) is included as a reference.
 
- The diagaram below shows the components that get created by running the playbook's `bootstrap` and `tools` inventories.
+ The diagram below shows the components that get created by running the playbook's `bootstrap` and `tools` inventories.
 ![whats-in-the-box.png](whats-in-the-box.png)
 
 ## How it Works
@@ -128,6 +128,10 @@ In some cases you might not want to deploy all of the components in this repo; b
 $ ansible-playbook site.yml \
     -e "include_tags=jenkins,ci,projects"
 ```
+
+## Creating a Test Pipeline
+
+Great! You've managed to install and configure everything. Now you want to see it all in action using a test pipeline. Head over to our [test pipeline workspace](https://github.com/HCL-Cloud-Native-Labs/pipeline-configs) to see how you can create a working pipeline that can build and deploy to a multi-project environment. 
 
 ## Scope and Direction
 
