@@ -139,7 +139,7 @@ pipeline {
                         echo "Applying inventory"
                         // each its own line to that in blue ocean UI they show seperately
                         sh "ansible-galaxy install -r requirements.yml --roles-path=roles"
-                        sh "ansible-playbook site.yml -e ci_cd_namespace=${env.PR_CI_CD_PROJECT_NAME} -e dev_namespace=${env.PR_DEV_PROJECT_NAME} -e test_namespace=${env.PR_TEST_PROJECT_NAME} -e test_namespace=${env.PR_PROD_PROJECT_NAME} -e role=admin"
+                        sh "ansible-playbook site.yml -e ci_cd_namespace=${env.PR_CI_CD_PROJECT_NAME} -e dev_namespace=${env.PR_DEV_PROJECT_NAME} -e test_namespace=${env.PR_TEST_PROJECT_NAME} -e prod_namespace=${env.PR_PROD_PROJECT_NAME} -e role=admin"
 
                     }
                     // Post can be used both on individual stages and for the entire build.

@@ -59,6 +59,10 @@ There are multiple Ansible inventories which divide the type of components to be
   ```bash
   $ oc create -f persistent-volumes.yaml
   ```
+ * Set environment variable for ansible (MacOS only)
+  ```bash
+  $ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+  ```
 
 ### Inventory Usage
 It should be noted that non-docker executions will utilize the inventory directory included in this repo by default. If you would like to specify a custom inventory for any of the below tasks, you can do so by adding `-i /path/to/my/inventory` to the command
