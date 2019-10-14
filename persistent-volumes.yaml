@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: sonarqube-data
+  name: baloise-sonarqube-data
 spec:
   accessModes:
     - ReadWriteOnce
@@ -9,15 +9,15 @@ spec:
     storage: 50Gi
   nfs:
     server: 172.16.70.133
-    path: "/nfsshare/sonarqube-data"
+    path: "/nfsshare/test-sonarqube-data"
   claimRef:
     name: sonarqube-data
-    namespace: labs-ci-cd
+    namespace: baloise-ci-cd
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: sonardb
+    name: baloise-sonardb
 spec:
     accessModes:
         - ReadWriteOnce
@@ -25,15 +25,15 @@ spec:
         storage: 50Gi
     nfs:
         server: 172.16.70.133
-        path: "/nfsshare/sonardb"
+        path: "/nfsshare/test-sonardb"
     claimRef:
         name: sonardb
-        namespace: labs-ci-cd
+        namespace: baloise-ci-cd
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: nexus
+    name: baloise-nexus
 spec:
     accessModes:
         - ReadWriteOnce
@@ -41,15 +41,15 @@ spec:
         storage: 50Gi
     nfs:
         server: 172.16.70.133
-        path: "/nfsshare/nexus"
+        path: "/nfsshare/test-nexus"
     claimRef:
         name: nexus
-        namespace: labs-ci-cd
+        namespace: baloise-ci-cd
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: jenkins
+    name: baloise-jenkins
 spec:
     accessModes:
         - ReadWriteOnce
@@ -57,7 +57,7 @@ spec:
         storage: 50Gi
     nfs:
         server: 172.16.70.133
-        path: "/nfsshare/jenkins"
+        path: "/nfsshare/test-jenkins"
     claimRef:
         name: jenkins
-        namespace: labs-ci-cd
+        namespace: baloise-ci-cd
