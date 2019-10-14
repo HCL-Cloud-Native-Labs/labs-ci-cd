@@ -77,7 +77,7 @@ $ ansible-galaxy install -r requirements.yml --roles-path=roles
 ```
 4. To deploy everything that we need for now, i.e. Jenkins, Sonarqube and Nexus, please run:
 ```bash
-$ ansible-playbook site.yml -e "include_tags=jenkins,sonarqube,nexus,tool-box,jenkins-slaves,rolebinding-group,rolebinding-jenkins,rolebinding-image-puller,ci,projects"
+$ ansible-playbook site.yml -e "include_tags=jenkins,sonarqube,nexus,tool-box,jenkins-slaves,rolebinding-group,rolebinding-jenkins,rolebinding-image-puller,ci,projects" -e ci_cd_namespace=baloise-ci-cd -e dev_namespace=baloise-dev -e test_namespace=baloise-test -e prod_namespace=baloise-prod
 ```
 5. Or to deploy everything, please run:
 ```bash
