@@ -11,7 +11,7 @@ jenkins_persistence_type: "persistent"
 jenkins:
   build:
     NAME: "{{ jenkins_name }}"
-    SOURCE_REPOSITORY_URL: https://github.com/HCL-Cloud-Native-Labs/s2i-config-jenkins.git
+    SOURCE_REPOSITORY_URL: https://github.com/rht-labs/s2i-config-jenkins.git
     SOURCE_REPOSITORY_REF: v1.5
     IMAGE_STREAM_NAMESPACE: "{{ ci_cd_namespace }}"
     SECRET_NAME: "jenkins-git-password"
@@ -172,7 +172,7 @@ openshift_cluster_content:
 - object: ci-cd-secrets
   content:
   - name: nexus-secret
-    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/secrets/secret-user-pass-plaintext.yml"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/secrets/secret-user-pass-basic-auth.yml"
     params_from_vars: "{{ nexus.secret }}"
     namespace: "{{ ci_cd_namespace }}"
     tags:
@@ -180,7 +180,7 @@ openshift_cluster_content:
     - secret
     - ci-cd-secrets
   - name: jenkins-secret
-    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/secrets/secret-user-pass-plaintext.yml"
+    template: "{{ openshift_templates_raw }}/{{ openshift_templates_raw_version_tag }}/secrets/secret-user-pass-basic-auth.yml"
     params_from_vars: "{{ jenkins.build }}"
     namespace: "{{ ci_cd_namespace }}"
     tags:
